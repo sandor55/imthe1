@@ -30,56 +30,56 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 LSS += \
-week4_1.lss \
+Eindopdracht.lss \
 
 FLASH_IMAGE += \
-week4_1.hex \
+Eindopdracht.hex \
 
 EEPROM_IMAGE += \
-week4_1.eep \
+Eindopdracht.eep \
 
 SIZEDUMMY += \
 sizedummy \
 
 
 # All Target
-all: week4_1.elf secondary-outputs
+all: Eindopdracht.elf secondary-outputs
 
 # Tool invocations
-week4_1.elf: $(OBJS) $(USER_OBJS)
+Eindopdracht.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,week4_1.map -mmcu=atmega88 -o "week4_1.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,Eindopdracht.map -mmcu=atmega88 -o "Eindopdracht.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-week4_1.lss: week4_1.elf
+Eindopdracht.lss: Eindopdracht.elf
 	@echo 'Invoking: AVR Create Extended Listing'
-	-avr-objdump -h -S week4_1.elf  >"week4_1.lss"
+	-avr-objdump -h -S Eindopdracht.elf  >"Eindopdracht.lss"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-week4_1.hex: week4_1.elf
+Eindopdracht.hex: Eindopdracht.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex week4_1.elf  "week4_1.hex"
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Eindopdracht.elf  "Eindopdracht.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-week4_1.eep: week4_1.elf
+Eindopdracht.eep: Eindopdracht.elf
 	@echo 'Create eeprom image (ihex format)'
-	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex week4_1.elf  "week4_1.eep"
+	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Eindopdracht.elf  "Eindopdracht.eep"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: week4_1.elf
+sizedummy: Eindopdracht.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega88 week4_1.elf
+	-avr-size --format=avr --mcu=atmega88 Eindopdracht.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(EEPROM_IMAGE)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) week4_1.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(EEPROM_IMAGE)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) Eindopdracht.elf
 	-@echo ' '
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(EEPROM_IMAGE) $(SIZEDUMMY)

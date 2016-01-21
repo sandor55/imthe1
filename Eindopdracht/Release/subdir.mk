@@ -4,13 +4,19 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../main.c 
+../delay.c \
+../main.c \
+../mcp9800.c 
 
 OBJS += \
-./main.o 
+./delay.o \
+./main.o \
+./mcp9800.o 
 
 C_DEPS += \
-./main.d 
+./delay.d \
+./main.d \
+./mcp9800.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

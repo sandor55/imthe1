@@ -49,7 +49,7 @@ all: week2_4.elf secondary-outputs
 week2_4.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,week2_4.map -mmcu=atmega88p -o "week2_4.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,week2_4.map -mmcu=atmega88 -o "week2_4.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -73,7 +73,7 @@ week2_4.eep: week2_4.elf
 
 sizedummy: week2_4.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega88p week2_4.elf
+	-avr-size --format=avr --mcu=atmega88 week2_4.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 

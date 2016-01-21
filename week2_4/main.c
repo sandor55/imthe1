@@ -13,12 +13,16 @@
 
 
 
-#define LED_DELAY 	1
+#define LED_DELAY 	20
 #define LED_DDR 	DDRB
 #define LED_PORT 	PORTB
 #define PWM_ROOD 	1
 #define PWM_GROEN 	2
 #define PWM_BLAUW	3
+
+
+
+
 
 int main(void)
 {
@@ -29,169 +33,229 @@ int main(void)
   int8_t rooddirection = 1;
   int8_t blauwdirection = 1;
   int8_t groendirection = 1;
-  uint8_t i;
-  int counter = 0;
 
 
-  LED_DDR = 0xff;
+  LED_DDR = 0xFF;  //alles output
+  LED_PORT = 0xFF; //alles uit
+
   /* Init all LEDs */
-void pwm(int kleur,int brightness)							//regelt lichtweergave per kleur
+void downRood()
 {
-// PWM
-    for (i = 0; i < 255; i++)
-    {
-      if (i < brightness)									//off/
-      {
 
-        LED_PORT &= ~(1<<kleur);                             /* turn on */
-      }
-      else
-      {
-    	  LED_PORT |= (1<<kleur);
-      }                                 					/* turn off */
-
-    }
-}
-void roodup()												//rood omhoog
-{
-	if (roodbrightness == 0)
-		{
-		rooddirection = 1;
-
-		}
-	if(roodbrightness == 255)
-		{
-		rooddirection = 0;
-		}
-	roodbrightness += rooddirection;						//kleur verandering rood
-
-
-}
-void rooddown()												//rood omlaag
-{
-	if (roodbrightness > 250)
-		{
-		rooddirection = -1;
-
-		}
-	if(roodbrightness == 0)
-		{
-		rooddirection = 0;
-		}
+	 if(roodbrightness == 255)
+		 {
+			 rooddirection = 0;
+		 }
+	 else
+	 	 {
+		 	 rooddirection = 1;
+	 	 }
+	 for(int a = 0; a < 255; a++)
+	 {
 	roodbrightness += rooddirection;
 
 
+	  for (int i = 0; i < 255; i++)
+	      {
+	        if (i < roodbrightness)
+	        {
+
+	          LED_PORT |= (1<<PWM_ROOD);                            /* turn on */
+	        }
+	        else
+	        {
+	      	  LED_PORT &= LED_PORT & ~(1<<PWM_ROOD);			//uit
+	        }
+	        _delay_us(LED_DELAY);
+	      }
+	 }
 }
-void blauwup()												//idem dito rood
+
+
+void downGroen()
 {
-	if (blauwbrightness == 0)
-		{
-		blauwdirection = 1;
-
-		}
-	if(blauwbrightness == 255)
-		{
-		blauwdirection = 0;
-		}
-	blauwbrightness += blauwdirection;
 
 
-}
-void blauwdown()										//zelfde als rood
-{
-	if (blauwbrightness > 250)
-		{
-		blauwdirection = -1;
-
-		}
-	if(blauwbrightness == 0)
-		{
-		blauwdirection = 0;
-		}
-	blauwbrightness += blauwdirection;
-
-
-}
-void groenup()											//zelfde als rood
-{
-	if (groenbrightness == 0)
-		{
-		groendirection = 1;
-
-		}
-	if(groenbrightness == 255)
-		{
-		groendirection = 0;
-		}
-	groenbrightness += groendirection;
-
-
-}
-void groendown()										//zelfde als rood
-{
-	if (groenbrightness > 250)
-		{
-		groendirection = -1;
-
-		}
-	if(groenbrightness == 0)
-		{
-		groendirection = 0;
-		}
-	groenbrightness += groendirection;
-
-
-}
-  while (1)
-  {
-		 pwm(PWM_ROOD,roodbrightness);						//pwm regelen
-		 pwm(PWM_BLAUW,blauwbrightness);
-		 pwm(PWM_GROEN,groenbrightness);
-	  if(counter == 1)
-	 	{
-	 roodup();											//alle kleuren aan
-	 blauwup();
-	 groenup();
-
-	 	}
-	  if(counter == 2)
-	  {
-	 groendown();
-
-	  }
-	 if(counter == 3)
+	 if(groenbrightness == 255)
 		 {
-		 	 blauwdown();
-
+		 groendirection = 0;
 		 }
-	 if(counter == 4)
+	 else
+		 	 {
+			 	 groendirection = 1;
+		 	 }
+	 for(int a = 0; a < 255; a++)
 	 {
-		 groenup();
+		 groenbrightness += groendirection;
 
-	 }
 
-	 if(counter == 5)
-	 {
-		 rooddown();
-	 }
-	 if(counter == 6)
-	 {
-		 blauwup();
+	  for (int i = 0; i < 255; i++)
+	      {
+	        if (i < groenbrightness)
+	        {
 
+	          LED_PORT |= (1<<PWM_GROEN);                            /* turn on */
+	        }
+	        else
+	        {
+	      	  LED_PORT &= LED_PORT & ~(1<<PWM_GROEN);			//uit
+	        }
+	        _delay_us(LED_DELAY);
+	      }
 	 }
-	 if(counter == 7)
+}
+void downBlauw()
+{
+
+	if(blauwbrightness == 255)
+			 {
+			 blauwdirection = 0;
+			 }
+	 else
+		 	 {
+			 	 blauwdirection = 1;
+		 	 }
+		 for(int a = 0; a < 255; a++)
+		 {
+			 blauwbrightness += blauwdirection;
+
+
+		  for (int i = 0; i < 255; i++)
+		      {
+		        if (i < blauwbrightness)
+		        {
+
+		          LED_PORT |= (1<<PWM_BLAUW);                            /* turn on */
+		        }
+		        else
+		        {
+		      	  LED_PORT &= LED_PORT & ~(1<<PWM_BLAUW);			//uitzetten
+		        }
+		        _delay_us(LED_DELAY);
+		      }
+		 }
+}
+void upRood()
+{
+
+	 if(roodbrightness == 0)
+		 {
+			 rooddirection = 0;
+		 }
+	 else
+	 	 {
+		 rooddirection = -1;
+	 	 }
+	 for(int a = 0; a < 255; a++)
 	 {
-		 groendown();
+	roodbrightness += rooddirection;
+
+
+	  for (int i = 0; i < 255; i++)
+	      {
+	        if (i < roodbrightness)
+	        {
+
+	          LED_PORT |= (1<<PWM_ROOD);                            /* turn on */
+	        }
+	        else
+	        {
+	      	  LED_PORT &= LED_PORT & ~(1<<PWM_ROOD);			//uit
+	        }
+	        _delay_us(LED_DELAY);
+	      }
 	 }
-	 if(counter == 8)
+}
+void upGroen()
+{
+
+	 if(groenbrightness == 0)
+		 {
+			 groendirection = 0;
+		 }
+	 else
+	 	 {
+		 groendirection = -1;
+	 	 }
+	 for(int a = 0; a < 255; a++)
 	 {
-		 blauwdown();
+	groenbrightness += groendirection;
+
+
+	  for (int i = 0; i < 255; i++)
+	      {
+	        if (i < groenbrightness)
+	        {
+
+	          LED_PORT |= (1<<PWM_GROEN);                            /* turn on */
+	        }
+	        else
+	        {
+	      	  LED_PORT &= LED_PORT & ~(1<<PWM_GROEN);			//uit
+	        }
+	        _delay_us(LED_DELAY);
+	      }
 	 }
-	 if(counter > 9)
+}
+void upBlauw()
+{
+
+	 if(blauwbrightness == 0)
+		 {
+			 blauwdirection = 0;
+		 }
+	 else
+	 	 {
+		 blauwdirection = -1;
+	 	 }
+	 for(int a = 0; a < 255; a++)
 	 {
-		 counter = 0;
+	blauwbrightness += blauwdirection;
+
+
+	  for (int i = 0; i < 255; i++)
+	      {
+	        if (i < blauwbrightness)
+	        {
+
+	          LED_PORT |= (1<<PWM_BLAUW);                            /* turn on */
+	        }
+	        else
+	        {
+	      	  LED_PORT &= LED_PORT & ~(1<<PWM_BLAUW);			//uit
+	        }
+	        _delay_us(LED_DELAY);
+	      }
 	 }
-	 counter += 1;
-	  }                                                  /* End event loop */
+}
+
+while (1)
+  {
+//	rood groen blauw
+
+upRood();
+upBlauw();
+upGroen();
+
+//	rood groen
+downBlauw();
+
+//	rood
+downGroen();
+
+//	rood blauw
+upBlauw();
+
+//	blauw
+downRood();
+
+//blauw groen
+upGroen();
+
+//	groen
+downBlauw();
+
+
+  }                                            /* End event loop */
 	  return (0);                            /* This line is never reached */
 }
